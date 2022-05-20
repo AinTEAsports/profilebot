@@ -6,56 +6,57 @@ from typing import Any
 
 class JsonHandler:
     
-    def __init__(self, jsonFilename : str, createNew : bool = False) -> None :
-        if not os.path.exists(jsonFilename):
-            if createNew:
-                with open(jsonFilename, 'w') as f:
+    def __init__(self, json_filename : str, create_new : bool = False) -> None() :
+        if not os.path.exists(json_filename):
+            if create_new:
+                with open(json_filename, 'w') as f:
                     f.write("{}")
             else:
                 raise FileNotFoundError("given json file does not exists")
 
-        self.__filename = jsonFilename
+        self.__filename = json_filename
 
 
-    def getJSON(self) -> dict[str] :
+    def get_json(self) -> dict[str:str] :
         with open(self.__filename, 'r') as f:
-            jsonObject = json.load(f)
+            json_object = json.load(f)
         
-        return jsonObject
+        return json_object
 
 
-    def update(self, newJson : dict[str]) -> None :
+    def update(self, new_json : dict[str]) -> None() :
         with open(self.__filename, 'w') as f:
-            json.dump(newJson, f)
+            json.dump(new_json, f)
             
     
-    def expand(self, toAdd : dict[str]) -> None :
-        expandedDict = self.getJSON()
-        expandedDict.update(toAdd)
+    def expand(self, to_add : dict[str]) -> None() :
+        expanded_dict = self.get_json()
+        expanded_dict.update(to_add)
         
-        self.update(newJson=expandedDict)
+        self.update(new_json=expanded_dict)
         
     
-    def createEntree(self, key : str, value : Any, replace : bool = False) -> None :
-        if self.keyExists(key) and not replace:
+    def create_entree(self, key : str, value : Any, replace : bool = False) -> None() :
+        if self.key_exists(key) and not replace:
             raise KeyError("the pair key/value you're trying to add already exists, to replace it, make sure the parameter 'replace' is set to 'True'")
 
-        newDict = self.getJSON()
+        newDict = self.get_json()
         newDict[key] = value
         
-        self.update(newJson=newDict)
+        self.update(new_json=newDict)
 
 
-    def reinitialize(self, forceReinitialize : bool = True) -> None :
-        if forceReinitialize:
+    def reinitialize(self, force_reinitialize : bool = True) -> None() :
+        if force_reinitialize:
             os.remove(self.__filename)
         
         with open(self.__filename, 'w') as f:
             f.write("{}")
 
 
-    def keyExists(self, key : Any) -> bool :
-        jsonObject = self.getJSON()
+    def key_exists(self, key : Any) -> bool() :
+        json_object = self.get_json()
         
-        return key in jsonObject.keys()
+        return key in json_object.keys()
+
 

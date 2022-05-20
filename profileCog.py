@@ -7,16 +7,16 @@ from jsonHandler import JsonHandler
 
 
 
-handler = JsonHandler("data.json", createNew=True)
+handler = JsonHandler("data.json", create_new=True)
 
 
 class ProfileEmbed(commands.Cog):
     
-    def __init__(self, bot : commands.Bot) -> None :
+    def __init__(self, bot : commands.Bot) -> None() :
         self.bot = bot
     
     
-    def __createProfile(self, user : discord.User) -> None :
+    def __create_profile(self, user : discord.User) -> None() :
         defaultInfos = {
             "tag" : user.name,
             "thumbnail" : "",
@@ -28,30 +28,30 @@ class ProfileEmbed(commands.Cog):
             "note" : "",
         }
         
-        handler.createEntree(str(user.id), defaultInfos)
+        handler.create_entree(str(user.id), defaultInfos)
 
 
-    def __validSwitchcode(self, switchCode : str) -> bool :
-        return re.search("SW-(\d{4})-(\d{4})-(\d{4})-(\d{4})", switchCode)
+    def __valid_switch_code(self, switch_code : str) -> bool() :
+        return re.search("SW-(\d{4})-(\d{4})-(\d{4})-(\d{4})", switch_code)
     
 
     @commands.command()
-    async def hello(self, ctx) -> None :
+    async def hello(self, ctx):
         await ctx.send(f"Hello {ctx.author.mention} !")
 
 
     @commands.command()
-    async def tag(self, ctx, newTag : str = "") -> None:        
-        if not handler.keyExists(str(ctx.author.id)):
-            self.__createProfile(ctx.author)
+    async def tag(self, ctx, new_tag : str = ""):        
+        if not handler.key_exists(str(ctx.author.id)):
+            self.__create_profile(ctx.author)
             
-        if not newTag:
-            actualTag = handler.getJSON()[str(ctx.author.id)]["tag"]
-            await ctx.message.reply(f"Your actual tag is `{actualTag}`")
+        if not new_tag:
+            actual_tag = handler.get_json()[str(ctx.author.id)]["tag"]
+            await ctx.message.reply(f"Your actual tag is `{actual_tag}`")
             return
         
-        data = handler.getJSON()
-        data[str(ctx.author.id)]["tag"] = newTag
+        data = handler.get_json()
+        data[str(ctx.author.id)]["tag"] = new_tag
         handler.update(data)
         
         await ctx.message.add_reaction("✅")
@@ -59,22 +59,22 @@ class ProfileEmbed(commands.Cog):
         
     @commands.command()
     async def thumbnail(self, ctx, url : str = ""):
-        if not handler.keyExists(str(ctx.author.id)):
-            self.__createProfile(ctx.author)
+        if not handler.key_exists(str(ctx.author.id)):
+            self.__create_profile(ctx.author)
             
         
         if not url:
-            actualThumbnail = handler.getJSON()[str(ctx.author.id)]["thumbnail"]
+            actual_thumbnail = handler.get_json()[str(ctx.author.id)]["thumbnail"]
             
-            if actualThumbnail:
-                await ctx.message.reply(f"Your actual thumbnail is : {actualThumbnail}")
+            if actual_thumbnail:
+                await ctx.message.reply(f"Your actual thumbnail is : {actual_thumbnail}")
                 return
             else:
                 await ctx.message.reply(f"You actually have registered no thumbnail, to register one use `{self.bot.command_prefix}thumbnail <your image url here>`")
                 return
             
             
-        data = handler.getJSON()
+        data = handler.get_json()
         data[str(ctx.author.id)]["thumbnail"] = url
         handler.update(data)
         
@@ -84,20 +84,20 @@ class ProfileEmbed(commands.Cog):
     
     @commands.command()
     async def mains(self, ctx, *mains):
-        if not handler.keyExists(str(ctx.author.id)):
-            self.__createProfile(ctx.author)
+        if not handler.key_exists(str(ctx.author.id)):
+            self.__create_profile(ctx.author)
         
         if not mains:
-            actualMains = handler.getJSON()[str(ctx.author.id)]["mains"]
+            actual_mains = handler.get_json()[str(ctx.author.id)]["mains"]
             
-            if not actualMains:
+            if not actual_mains:
                 await ctx.message.reply(f"You actually have registered no mains, to register mains use `{self.bot.command_prefix}mains <your mains here>`")
                 return
                 
-            await ctx.message.reply(f"Your actual mains are : `{', '.join(actualMains)}`")
+            await ctx.message.reply(f"Your actual mains are : `{', '.join(actual_mains)}`")
             return
         
-        data = handler.getJSON()
+        data = handler.get_json()
         data[str(ctx.author.id)]["mains"] = list(mains)
         handler.update(data)
         
@@ -106,20 +106,20 @@ class ProfileEmbed(commands.Cog):
     
     @commands.command()
     async def secondaries(self, ctx, *secondaries):
-        if not handler.keyExists(str(ctx.author.id)):
-            self.__createProfile(ctx.author)
+        if not handler.key_exists(str(ctx.author.id)):
+            self.__create_profile(ctx.author)
         
         if not secondaries:
-            actualSeconds = handler.getJSON()[str(ctx.author.id)]["secondaries"]
+            actual_seconds = handler.get_json()[str(ctx.author.id)]["secondaries"]
             
-            if not actualSeconds:
+            if not actual_seconds:
                 await ctx.message.reply(f"You actually have registered no mains, to register mains use `{self.bot.command_prefix}secondaries <your secondaries here>`")
                 return
                 
-            await ctx.message.reply(f"Your actual mains are : `{', '.join(actualSeconds)}`")
+            await ctx.message.reply(f"Your actual mains are : `{', '.join(actual_seconds)}`")
             return
         
-        data = handler.getJSON()
+        data = handler.get_json()
         data[str(ctx.author.id)]["secondaries"] = list(secondaries)
         handler.update(data)
         
@@ -128,11 +128,11 @@ class ProfileEmbed(commands.Cog):
 
     @commands.command()
     async def games(self, ctx, *games):
-        if not handler.keyExists(str(ctx.author.id)):
-            self.__createProfile(ctx.author)
+        if not handler.key_exists(str(ctx.author.id)):
+            self.__create_profile(ctx.author)
             
             
-        availibleGames = [
+        availible_games = [
             "Smash 64",
             "Melee",
             "Brawl",
@@ -142,22 +142,22 @@ class ProfileEmbed(commands.Cog):
         
         
         if not games:
-            actualGames = handler.getJSON()[str(ctx.author.id)]["games"]
+            actual_games = handler.get_json()[str(ctx.author.id)]["games"]
             
-            if not actualGames:
+            if not actual_games:
                 await ctx.message.reply(f"You actually have registered no mains, to register mains use `{self.bot.command_prefix}games <your games here>`")
                 return
                 
-            await ctx.message.reply(f"Your actual mains are : `{', '.join(actualGames)}`")
+            await ctx.message.reply(f"Your actual mains are : `{', '.join(actual_games)}`")
             return
         
         
         for game in games:
-            if game not in availibleGames:
-                await ctx.message.reply(f"'{game}' is not a valid game. Availible games are : `{', '.join(availibleGames)}`")
+            if game not in availible_games:
+                await ctx.message.reply(f"'{game}' is not a valid game. Availible games are : `{', '.join(availible_games)}`")
                 return
         
-        data = handler.getJSON()
+        data = handler.get_json()
         data[str(ctx.author.id)]["games"] = list(games)
         handler.update(data)
         
@@ -165,29 +165,29 @@ class ProfileEmbed(commands.Cog):
     
     
     @commands.command()
-    async def switch_code(self, ctx, switchCode : str = ""):
-        if not handler.keyExists(str(ctx.author.id)):
-            self.__createProfile(ctx.author)
+    async def switch_code(self, ctx, switch_code : str = ""):
+        if not handler.key_exists(str(ctx.author.id)):
+            self.__create_profile(ctx.author)
 
 
-        if not switchCode:
-            data = handler.getJSON()
-            actualSwitchCode = data[str(ctx.author.id)]["switch-code"]
+        if not switch_code:
+            data = handler.get_json()
+            actual_switch_code = data[str(ctx.author.id)]["switch-code"]
             
-            if actualSwitchCode:
-                await ctx.message.reply(f"Your actual switch code is : `{actualSwitchCode}`")
+            if actual_switch_code:
+                await ctx.message.reply(f"Your actual switch code is : `{actual_switch_code}`")
                 return
             else:
                 await ctx.message.reply(f"You have no switch code registered, to register one use `{self.bot.command_prefix}switch_code <your switch code here>`")
                 return
         
-        if not self.__validSwitchcode(switchCode):
+        if not self.__valid_switch_code(switch_code):
             await ctx.message.reply(f"Your switch code is not valid")
             await ctx.message.add_reaction("❌")
             return
         
-        data = handler.getJSON()
-        data[str(ctx.author.id)]["switch code"] = switchCode
+        data = handler.get_json()
+        data[str(ctx.author.id)]["switch code"] = switch_code
         
         handler.update(data)
         
@@ -196,8 +196,8 @@ class ProfileEmbed(commands.Cog):
     
     @commands.command()
     async def region(self, ctx, region : str = ""):
-        if not handler.keyExists(str(ctx.author.id)):
-            self.__createProfile(ctx.author)
+        if not handler.key_exists(str(ctx.author.id)):
+            self.__create_profile(ctx.author)
         
         
         regions = [
@@ -212,11 +212,11 @@ class ProfileEmbed(commands.Cog):
         
         
         if not region:
-            data = handler.getJSON()
-            actualRegion = data[str(ctx.author.id)]["region"]
+            data = handler.get_json()
+            actual_region = data[str(ctx.author.id)]["region"]
             
-            if actualRegion:
-                await ctx.message.reply(f"Your actual region is : `{actualRegion}`")
+            if actual_region:
+                await ctx.message.reply(f"Your actual region is : `{actual_region}`")
                 return
             else:
                 await ctx.message.reply(f"You have no region registered, to register one use `{self.bot.command_prefix}region <your region here>`")
@@ -228,7 +228,7 @@ class ProfileEmbed(commands.Cog):
             return
         
         
-        data = handler.getJSON()
+        data = handler.get_json()
         data[str(ctx.author.id)]["region"] = region
         handler.update(data)
         
@@ -238,17 +238,17 @@ class ProfileEmbed(commands.Cog):
     @commands.command()
     async def note(self, ctx, *note):
         if not note:
-            data = handler.getJSON()
-            actualNote = data[str(ctx.author.id)]["note"]
+            data = handler.get_json()
+            actual_note = data[str(ctx.author.id)]["note"]
             
-            if actualNote:
-                await ctx.message.reply(f"Your actual note is : `{actualNote}`")
+            if actual_note:
+                await ctx.message.reply(f"Your actual note is : `{actual_note}`")
                 return
             else:
                 await ctx.message.reply(f"You have no note registered, to register one use `{self.bot.command_prefix}note <your note here>`")
                 return
 
-        data = handler.getJSON()
+        data = handler.get_json()
         data[str(ctx.author.id)]["note"] = " ".join(note)
         handler.update(data)
         
@@ -257,7 +257,7 @@ class ProfileEmbed(commands.Cog):
     
     @commands.command()
     async def reset_profile(self, ctx):
-        defaultInfos = {
+        default_infos = {
             "tag" : ctx.author.name,
             "thumbnail" : "",
             "mains" : [],
@@ -268,8 +268,8 @@ class ProfileEmbed(commands.Cog):
             "note" : "",
         }
         
-        data = handler.getJSON()
-        data[str(ctx.author.id)] = defaultInfos
+        data = handler.get_json()
+        data[str(ctx.author.id)] = default_infos
         handler.update(data)
         
         await ctx.message.add_reaction("✅")
@@ -280,22 +280,22 @@ class ProfileEmbed(commands.Cog):
         if not user:
             user = ctx.author
         
-        if not handler.keyExists(str(ctx.author.id)):
-            self.__createProfile(user)
+        if not handler.key_exists(str(ctx.author.id)):
+            self.__create_profile(user)
             
-        userInfos = handler.getJSON()[str(user.id)]
+        user_infos = handler.get_json()[str(user.id)]
 
 
-        profileEmbed = discord.Embed()
+        profile_embed = discord.Embed()
         
         
         # Adding thumbnail if there is one registered
-        if userInfos["thumbnail"]:
-            profileEmbed.set_thumbnail(url=userInfos["thumbnail"])
+        if user_infos["thumbnail"]:
+            profile_embed.set_thumbnail(url=user_infos["thumbnail"])
         
         
-        for key in userInfos.keys():
-            info = userInfos[key]
+        for key in user_infos.keys():
+            info = user_infos[key]
 
             if info and key != "thumbnail":
                 if type(info) == list:
@@ -304,11 +304,11 @@ class ProfileEmbed(commands.Cog):
                     
                     info = ", ".join(info)
 
-                profileEmbed.add_field(name=f"**{key.title()}**", value=info, inline=False)
+                profile_embed.add_field(name=f"**{key.title()}**", value=info, inline=False)
                 
                 
-        profileEmbed.set_footer(icon_url=user.avatar_url, text=f"{user.name}'s profile")        
+        profile_embed.set_footer(icon_url=user.avatar_url, text=f"{user.name}'s profile")        
         
         
-        await ctx.message.reply(embed=profileEmbed)
+        await ctx.message.reply(embed=profile_embed)
 

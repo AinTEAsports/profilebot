@@ -10,7 +10,6 @@ bot = commands.Bot(command_prefix=".sp ", description="A simple bo to test a cog
 
 ################################# EVENTS #######################################
 
-
 @bot.event
 async def on_ready():
     print(f"Ready, logged in as {bot.user}")
@@ -35,17 +34,17 @@ async def help(ctx):
         "profile" : "to show your profile in a beautiful embed",
     }
 
-    embedString = ""
+    embed_string = ""
 
     for command, description in commands.items():
-        embedString += f"**{command}** {description}\n"
+        embed_string += f"**{command}** {description}\n"
         
         
-    helpEmbed = discord.Embed(title="__Help embed__")
-    helpEmbed.add_field(name="**Commands :**\n", value=embedString, inline=False)
-    helpEmbed.set_footer(icon_url=ctx.message.guild.icon_url, text=ctx.message.guild.name)
+    help_embed = discord.Embed(title="__Help embed__")
+    help_embed.add_field(name="**Commands :**\n", value=embed_string, inline=False)
+    help_embed.set_footer(icon_url=ctx.message.guild.icon_url, text=ctx.message.guild.name)
     
-    await ctx.send(embed=helpEmbed)
+    await ctx.send(embed=help_embed)
 
 
 ################################# COG ADDS #######################################
@@ -55,4 +54,4 @@ bot.add_cog(ProfileEmbed(bot))
 
 ################################# BOT LAUNCH #######################################
 
-bot.run("token")
+bot.run("ODc3OTI5NTk1Nzg4MjA2MDkw.GElGBz.7Cqamvj05ce5bC1rzYNRdM6dPjXEx60aH-MTsk")
