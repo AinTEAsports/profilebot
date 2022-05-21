@@ -7,17 +7,29 @@ from jsonHandler import JsonHandler
 
 
 
-handler = JsonHandler("data.json", create_new=True)
+handler = JsonHandler("./data.json", create_new=True)
 
 
 class ProfileEmbed(commands.Cog):
     
-    def __init__(self, bot : commands.Bot) -> None() :
+    def __init__(self, bot : commands.Bot) -> None :
+        """Init method for the cog
+
+        Args:
+            bot (commands.Bot): bot instance
+        """
+        
         self.bot = bot
-    
-    
-    def __create_profile(self, user : discord.User) -> None() :
-        defaultInfos = {
+
+
+    def __create_profile(self, user : discord.User) -> None :
+        """Private method that adds a new empty/default profile into json file
+
+        Args:
+            user (discord.User): the user you want to create a profile_embed
+        """
+        
+        default_infos = {  
             "tag" : user.name,
             "thumbnail" : "",
             "mains" : [],
@@ -28,16 +40,20 @@ class ProfileEmbed(commands.Cog):
             "note" : "",
         }
         
-        handler.create_entree(str(user.id), defaultInfos)
+        handler.create_entree(str(user.id), default_infos)
 
 
-    def __valid_switch_code(self, switch_code : str) -> bool() :
+    def __valid_switch_code(self, switch_code : str) -> bool :
+        """Private method that returns if a switch code has valid syntax or not
+
+        Args:
+            switch_code (str): the switch code
+
+        Returns:
+            bool: validity of syntax of switch code
+        """
+        
         return re.search("SW-(\d{4})-(\d{4})-(\d{4})-(\d{4})", switch_code)
-    
-
-    @commands.command()
-    async def hello(self, ctx):
-        await ctx.send(f"Hello {ctx.author.mention} !")
 
 
     @commands.command()
