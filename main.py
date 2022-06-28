@@ -54,4 +54,5 @@ bot.add_cog(ProfileEmbed(bot))
 
 ################################# BOT LAUNCH #######################################
 
-bot.run("ODc3OTI5NTk1Nzg4MjA2MDkw.GElGBz.7Cqamvj05ce5bC1rzYNRdM6dPjXEx60aH-MTsk")
+bot.run("TOKEN")
+
